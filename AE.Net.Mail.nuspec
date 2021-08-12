@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package>
 	<metadata>
-		<id>AE.Net.Mail</id>
+		<id>CS.AE.Net.Mail</id>
 		<version>#version#</version>
-		<owners>Andy Edinborough</owners>
+		<owners>PrismHR</owners>
 		<authors>Andy Edinborough</authors>
 		<description>POP/IMap Client Library</description>
 		<language>en-US</language>
-		<projectUrl>https://github.com/andyedinborough/aenetmail</projectUrl>
+		<projectUrl>https://github.com/prileyprismhr/aenetmail</projectUrl>
 		<releaseNotes><![CDATA[#message#]]></releaseNotes>
 	</metadata>
 </package>
