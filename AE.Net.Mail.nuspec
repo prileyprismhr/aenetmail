@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata>
-		<id>AE.Net.Mail</id>
+		<id>CS.AE.Net.Mail</id>
 		<version>#version#</version>
-		<owners>Andy Edinborough</owners>
+		<owners>PrismHR</owners>
 		<authors>Andy Edinborough</authors>
 		<description>POP/IMap Client Library</description>
 		<language>en-US</language>
-		<projectUrl>https://github.com/andyedinborough/aenetmail</projectUrl>
-		<releaseNotes><![CDATA[#message#]]></releaseNotes>
+		<projectUrl>https://github.com/prileyprismhr/aenetmail</projectUrl>
+		<releaseNotes>Forked to support tls 1.2</releaseNotes>
 	</metadata>
 </package>
