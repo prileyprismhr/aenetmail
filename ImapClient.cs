@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AE.Net.Mail
@@ -39,9 +40,32 @@ namespace AE.Net.Mail
         public ImapClient(string host, string username, string password, AuthMethods method = AuthMethods.Login, int port = 143, bool secure = false, bool skipSslValidation = false)
             : this()
         {
-            Connect(host, port, secure, skipSslValidation);
-            AuthMethod = method;
-            Login(username, password);
+            var tries = 0;
+
+            while (true)
+            {
+                try
+                {
+                    Connect(host, port, secure, skipSslValidation);
+                    AuthMethod = method;
+                    Login(username, password);
+
+                    break;
+                }
+                catch (Exception e)
+                {
+                    if (++tries == 5)
+                    {
+                        throw new Exception($"Tried 5 times, but failed to log in: {e.Message}", e);
+                    }
+                    else
+                    {
+                        try { Disconnect(); } catch (Exception) { }
+                        Thread.Sleep(1000);
+                    }
+                }
+
+            }
         }
 
         public int IdleTimeout { get; set; }

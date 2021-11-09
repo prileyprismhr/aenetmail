@@ -2,10 +2,10 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 
-namespace AE.Net.Mail {
-	public abstract class TextClient : IDisposable {
+namespace AE.Net.Mail
+{
+    public abstract class TextClient : IDisposable {
 		protected TcpClient _Connection;
 		protected Stream _Stream;
 
@@ -62,50 +62,31 @@ namespace AE.Net.Mail {
 		}
 
 		public virtual void Connect(string hostname, int port, bool ssl, System.Net.Security.RemoteCertificateValidationCallback validateCertificate) {
-			var failureCount = 0;
 
-			while (!IsConnected)
-            {
-				try
-				{
-					Host = hostname;
-					Port = port;
-					Ssl = ssl;
+			Host = hostname;
+			Port = port;
+			Ssl = ssl;
 
-					ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
+			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
 
-					_Connection = new TcpClient(hostname, port);
-					_Stream = _Connection.GetStream();
-					if (ssl)
-					{
-						System.Net.Security.SslStream sslStream;
-						if (validateCertificate != null)
-							sslStream = new System.Net.Security.SslStream(_Stream, false, validateCertificate);
-						else
-							sslStream = new System.Net.Security.SslStream(_Stream, false);
-						_Stream = sslStream;
-						sslStream.AuthenticateAsClient(hostname);
-					}
-
-					OnConnected(GetResponse());
-
-					IsConnected = true;
-					Host = hostname;
-				}
-				catch (Exception e)
-				{
-					Disconnect();
-					if (++failureCount == 5)
-                    {
-						throw new Exception($"Tried 5 times, but failed to connect: {e.Message}", e);
-                    }
-					else
-                    {
-						Thread.Sleep(5000);
-                    }
-				}
-
+			_Connection = new TcpClient(hostname, port);
+			_Stream = _Connection.GetStream();
+			if (ssl)
+			{
+				System.Net.Security.SslStream sslStream;
+				if (validateCertificate != null)
+					sslStream = new System.Net.Security.SslStream(_Stream, false, validateCertificate);
+				else
+					sslStream = new System.Net.Security.SslStream(_Stream, false);
+				_Stream = sslStream;
+				sslStream.AuthenticateAsClient(hostname);
 			}
+
+			OnConnected(GetResponse());
+
+			IsConnected = true;
+			Host = hostname;
+
 		}
 
 		protected virtual void CheckConnectionStatus() {
