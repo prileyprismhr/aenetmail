@@ -67,8 +67,6 @@ namespace AE.Net.Mail
 			Port = port;
 			Ssl = ssl;
 
-			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
-
 			_Connection = new TcpClient(hostname, port);
 			_Stream = _Connection.GetStream();
 			if (ssl)
@@ -79,7 +77,7 @@ namespace AE.Net.Mail
 				else
 					sslStream = new System.Net.Security.SslStream(_Stream, false);
 				_Stream = sslStream;
-				sslStream.AuthenticateAsClient(hostname);
+				sslStream.AuthenticateAsClient(hostname, null, System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls | System.Security.Authentication.SslProtocols.Ssl3, true);
 			}
 
 			OnConnected(GetResponse());
